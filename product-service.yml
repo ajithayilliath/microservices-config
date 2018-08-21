@@ -1,6 +1,18 @@
 ---
 spring:
   profiles: cloud
+  datasource:
+    url: ${cloud.services.mysql.connection.jdbcurl}
+    username: ${cloud.services.mysql.connection.username}
+    password: ${cloud.services.mysql.connection.password}
+    tomcat:
+      test-on-borrow: true
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL55Dialect
 management:
   endpoints:
     web:
@@ -20,18 +32,20 @@ eureka:
   client:
     registerWithEureka: true
     serviceUrl: ${vcap.services.discovery.credentials.uri}/eureka/
----
-spring:
-  profiles: mysql
-  datasource:
-    url: ${cloud.services.mysql.connection.jdbcurl}
-    username: ${cloud.services.mysql.connection.username}
-    password: ${cloud.services.mysql.connection.password}
-    tomcat:
-      test-on-borrow: true
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL55Dialect
+security:
+  oauth2:
+    client:
+      client-id: ${vcap.services.uaa.credentials.client_id}
+      client-secret: ${vcap.services.uaa.credentials.client_secret}
+      access-token-uri: ${vcap.services.uaa.credentials.url}/oauth/token
+      user-authorization-uri: ${vcap.services.uaa.credentials.url}/oauth/authorize
+      scope: openid,product.read,product.write,cart.read,cart.write
+    resource:
+      user-info-uri: ${vcap.services.uaa.credentials.url}/userinfo
+      token-info-uri: ${vcap.services.uaa.credentials.url}/introspect
+      prefer-token-info: true
+feign:
+  hystrix:
+    enabled: true
+hystrix:
+  shareSecurityContext: true
