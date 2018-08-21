@@ -1,0 +1,41 @@
+---
+spring:
+  profiles: cloud
+  cloud:
+    services:
+      registrationMethod: route
+webapp:
+  background:
+    color: blue
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+zuul:
+  routes:
+    inventory-service:
+      path: /inventory/**
+      serviceId: inventory-service
+      sensitiveHeaders:
+      stripPrefix: true
+    cart-service:
+      path: /cart/**
+      serviceId: cart-service
+      sensitiveHeaders:
+      stripPrefix: true
+    product-service:
+      path: /product/**
+      serviceId: product-service
+      sensitiveHeaders:
+      stripPrefix: true
+  ignored-services: '*'
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 20
+  client:
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: ${vcap.services.discovery.credentials.uri}/eureka/
+    fetch-registry: true
