@@ -19,6 +19,9 @@ eureka:
   client:
     registerWithEureka: true
     serviceUrl: ${vcap.services.discovery.credentials.uri}/eureka/
+feign:
+  hystrix:
+    enabled: true
 ---
 spring:
   profiles: security
@@ -34,9 +37,6 @@ security:
       user-info-uri: ${vcap.services.uaa.credentials.url}/userinfo
       token-info-uri: ${vcap.services.uaa.credentials.url}/introspect
       prefer-token-info: false
-feign:
-  hystrix:
-    enabled: true
 hystrix:
   shareSecurityContext: true
 ---
