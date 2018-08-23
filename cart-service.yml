@@ -19,6 +19,9 @@ eureka:
   client:
     registerWithEureka: true
     serviceUrl: ${vcap.services.discovery.credentials.uri}/eureka/
+---
+spring:
+  profiles: security
 security:
   oauth2:
     client:
@@ -36,3 +39,14 @@ feign:
     enabled: true
 hystrix:
   shareSecurityContext: true
+---
+spring:
+  profiles: zipkin
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    baseUrl: ${vcap.services.zipkin.credentials.url}/
+sample:
+  zipkin: 
+    enabled: true

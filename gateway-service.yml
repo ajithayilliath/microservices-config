@@ -39,6 +39,9 @@ eureka:
     serviceUrl:
       defaultZone: ${vcap.services.discovery.credentials.uri}/eureka/
     fetch-registry: true
+---
+spring:
+  profiles: security
 security:
   oauth2:
     client:
@@ -53,3 +56,14 @@ security:
       prefer-token-info: false
 hystrix:
   shareSecurityContext: true
+---
+spring:
+  profiles: zipkin
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    baseUrl: ${vcap.services.zipkin.credentials.url}/
+sample:
+  zipkin: 
+    enabled: true

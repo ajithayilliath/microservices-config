@@ -23,6 +23,9 @@ eureka:
   client:
     registerWithEureka: true
     serviceUrl: ${vcap.services.discovery.credentials.uri}/eureka/
+---
+spring:
+  profiles: security
 security:
   oauth2:
     client:
@@ -55,3 +58,14 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL55Dialect
+---
+spring:
+  profiles: zipkin
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    baseUrl: ${vcap.services.zipkin.credentials.url}/
+sample:
+  zipkin: 
+    enabled: true

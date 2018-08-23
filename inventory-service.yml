@@ -28,6 +28,9 @@ eureka:
   client:
     registerWithEureka: true
     serviceUrl: ${vcap.services.discovery.credentials.uri}/eureka/
+---
+spring:
+  profiles: security
 security:
   oauth2:
     client:
@@ -40,3 +43,14 @@ security:
       user-info-uri: ${vcap.services.uaa.credentials.url}/userinfo
       token-info-uri: ${vcap.services.uaa.credentials.url}/introspect
       prefer-token-info: true
+---
+spring:
+  profiles: zipkin
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    baseUrl: ${vcap.services.zipkin.credentials.url}/
+sample:
+  zipkin: 
+    enabled: true
