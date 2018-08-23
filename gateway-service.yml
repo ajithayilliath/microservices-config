@@ -1,4 +1,10 @@
 ---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+---
 spring:
   profiles: cloud
   cloud:
@@ -7,11 +13,6 @@ spring:
 webapp:
   background:
     color: blue
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
 zuul:
   routes:
     inventory-service:

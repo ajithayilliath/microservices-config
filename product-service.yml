@@ -1,14 +1,15 @@
 ---
-spring:
-  profiles: cloud
-  cloud:
-    services:
-      registrationMethod: route
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+---
+spring:
+  profiles: cloud
+  cloud:
+    services:
+      registrationMethod: route
 databaseUrl: ${cloud.services.mysql.connection.jdbcurl:jdbc:h2:mem:test}
 products:
   a: ${PRODUCTS_A:#{null}}
